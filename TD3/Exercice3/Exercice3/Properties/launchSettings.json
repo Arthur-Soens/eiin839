@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Exercice3": {
+      "commandName": "Project",
+      "commandLineArgs": "cergy-pontoise 53004"
+    }
+  }
+}

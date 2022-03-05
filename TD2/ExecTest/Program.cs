@@ -6,10 +6,7 @@ namespace ExeTest
     {
         static void Main(string[] args)
         {
-            if (args.Length == 1)
-                Console.WriteLine(args[0]);
-            else
-                Console.WriteLine("ExeTest <string parameter>");
+            Console.WriteLine("<html><body> Hello world from outside ! with " + args[0] +" as first argument</body></html>");
         }
     }
 }
