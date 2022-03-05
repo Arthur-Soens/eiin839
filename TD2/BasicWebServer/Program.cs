@@ -3,10 +3,54 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Reflection;
 using System.Web;
+using System.Diagnostics;
 
 namespace BasicServerHTTPlistener
 {
+
+    public class MyMethod
+    {
+        public string response(string p1, string p2)
+        {
+            return "<html><body> Hello " + p1 + " et " + p2 + "</body></html>";
+        }
+
+        public string general(string p1, string p2)
+        {
+            return "<html><body> Hello world !</body></html>";
+        }
+
+        public string callExt(string p1, string p2)
+        {
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = @"C:\Users\arthd\OneDrive\Documents\eiin839\TD2\ExecTest\bin\Debug\ExecTest.exe"; // Specify exe name.
+            start.Arguments = p1;
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            //
+            // Start the process.
+            //
+            using (Process process = Process.Start(start))
+            {
+                //
+                // Read in all the text from the process with the StreamReader.
+                //
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        public string incr(string p1, string p2)
+        {
+            int p = int.Parse(p1);
+            p++;
+            return p.ToString();
+        }
+    }
     internal class Program
     {
         private static void Main(string[] args)
@@ -87,9 +131,12 @@ namespace BasicServerHTTPlistener
                 Console.WriteLine(request.Url.LocalPath);
 
                 // parse path in url 
+                string methodStr = "";
                 foreach (string str in request.Url.Segments)
                 {
                     Console.WriteLine(str);
+                    methodStr = str;
+
                 }
 
                 //get params un url. After ? and between &
@@ -97,6 +144,8 @@ namespace BasicServerHTTPlistener
                 Console.WriteLine(request.Url.Query);
 
                 //parse params in url
+                string param1 = HttpUtility.ParseQueryString(request.Url.Query).Get("param1");
+                string param2 = HttpUtility.ParseQueryString(request.Url.Query).Get("param2");
                 Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
                 Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
                 Console.WriteLine("param3 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param3"));
@@ -108,8 +157,15 @@ namespace BasicServerHTTPlistener
                 // Obtain a response object.
                 HttpListenerResponse response = context.Response;
 
+                Type type = typeof(MyMethod);
+                MethodInfo method = type.GetMethod("general");
+                if (type.GetMethod(methodStr) != null)
+                {
+                    method = type.GetMethod(methodStr);
+                }
+                MyMethod c = new MyMethod();
                 // Construct a response.
-                string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+                string responseString = (string)method.Invoke(c,new object[] { param1, param2});
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
                 // Get a response stream and write the response to it.
                 response.ContentLength64 = buffer.Length;

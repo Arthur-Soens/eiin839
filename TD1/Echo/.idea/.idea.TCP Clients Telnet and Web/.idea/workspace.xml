@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1c590924-05da-44b9-9dce-c385063fc3f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/../../.vs/slnx.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicExamplesTP2.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicExamplesTP2.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/bin/Debug/BasicWebServer.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/bin/Debug/BasicWebServer.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/bin/Debug/BasicWebServer.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/bin/Debug/BasicWebServer.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServer.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServer.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServer.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServer.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServerUrlParser.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/BasicWebServerUrlParser.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/BasicWebServer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/bin/Debug/ExecTest.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/bin/Debug/ExecTest.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/bin/Debug/ExecTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/bin/Debug/ExecTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExecTest/obj/Debug/ExecTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExternalExeCall/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExternalExeCall/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExternalExeCall/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExternalExeCall/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ExternalExeCall/obj/Debug/ExternalExeCall.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ExternalExeCall/obj/Debug/ExternalExeCall.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ReflectionSample/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ReflectionSample/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TD2/ReflectionSample/obj/Debug/ReflectionSample.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../TD2/ReflectionSample/obj/Debug/ReflectionSample.csproj.FileListAbsolute.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="24xbv6rNwtXJp2IVQ272apc4Jup" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1644575416936</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644575416936</updated>
+      <workItem from="1644575423774" duration="18000" />
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
