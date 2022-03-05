@@ -25,7 +25,7 @@ namespace BasicServerHTTPlistener
         public string callExt(string p1, string p2)
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = @"C:\Users\arthd\OneDrive\Documents\eiin839\TD2\ExecTest\bin\Debug\ExecTest.exe"; // Specify exe name.
+            start.FileName = @"D:\Si4\eiin839\TD2\ExecTest\bin\Debug\ExecTest.exe"; // Specify exe name.
             start.Arguments = p1;
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
@@ -48,7 +48,7 @@ namespace BasicServerHTTPlistener
         {
             int p = int.Parse(p1);
             p++;
-            return p.ToString();
+            return "incr OK valDepart = " + p1 + " New val = " +p.ToString();
         }
     }
     internal class Program

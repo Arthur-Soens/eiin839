@@ -11,38 +11,13 @@ namespace Echo
 {
     class EchoClient
     {
-        static TcpClient clientSocket;
-        public static void Write()
+        static HttpClient client = new HttpClient();
+
+        static async Task Main(string[] args)
         {
-            BinaryWriter writer = new BinaryWriter(clientSocket.GetStream());
-
-            while (true)
-            {
-
-                string str = Console.ReadLine();
-                writer.Write(str);
-            }
-        }
-        public static void Read()
-        {
-            BinaryReader reader = new BinaryReader(clientSocket.GetStream());
-
-            while (true)
-            {
-                string str = "response: ";
-                str = reader.ReadString();
-                Console.WriteLine(str);
-            }
-
-        }
-
-        static void Main(string[] args)
-        {
-            clientSocket = new TcpClient("localhost", 8080);
-            Thread ctThreadWrite = new Thread(Write);
-            Thread ctThreadRead = new Thread(Read);
-            ctThreadRead.Start();
-            ctThreadWrite.Start();
+            HttpResponseMessage response =await client.GetAsync("http://localhost:8080/incr?param1=" + args[0]);
+            string responseBody =await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseBody);
         }
     }
 }
