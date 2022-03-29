@@ -15,16 +15,19 @@ namespace MathLibraryRest
         //Chaque [webInvoke] permet de definir la methode utilisé et les arguments à passer dans l'url ainsi que leur format
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "Add?x={x}&y={y}")]
-
+        //Pour tester add voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Add?x=1&y=2
         int Add(int x, int y);
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "Mult?x={x}&y={y}")]
+        //Pour tester multiply voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Mult?x=2&y=4
         int Multiply(int x, int y);
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "Sub?x={x}&y={y}")]
+        //Pour tester substract voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Sub?x=1&y=2
         int Substract(int x, int y);
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "Div?x={x}&y={y}")]
+        //Pour tester divide voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Div?x=1&y=2
         float Divide(int x, int y);
 
         [OperationContract]
