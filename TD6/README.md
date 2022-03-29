@@ -28,4 +28,5 @@ http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Div?x=1
 __Divide with post request__ :
 
 `POST http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/PostDiv`
+
 Avec comme body : `{"x":3,"y":2}`
