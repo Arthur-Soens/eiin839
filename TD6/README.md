@@ -19,6 +19,12 @@ http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Add?x=1
 __Substract (1-2)__ :
 http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Sub?x=1&y=2
 
+__Substract (1-2) avec un format de réponse XML__ :
+http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/SubXML?x=1&y=2
+
+__Substract (1-2) avec un format de réponse XML et un style BARE__ :
+http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/SubXMLBARE?x=1&y=2
+
 __Multiply (2*4)__ :
 http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Mult?x=2&y=4
 

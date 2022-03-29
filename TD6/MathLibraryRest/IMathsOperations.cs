@@ -36,6 +36,16 @@ namespace MathLibraryRest
         float PostDivide(int x, int y);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "SubXML?x={x}&y={y}")]
+        //Pour tester substract voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/SubXML?x=1&y=2
+        int SubstractXML(int x, int y);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "SubXMLBARE?x={x}&y={y}")]
+        //Pour tester substract voici une url : http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/SubXMLBARE?x=1&y=2
+        int SubstractXMLBARE(int x, int y);
+
+        [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: ajoutez vos opérations de service ici

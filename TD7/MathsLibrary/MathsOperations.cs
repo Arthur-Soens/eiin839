@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace MathLibraryRest
+namespace MathsLibrary
 {
     // REMARQUE : vous pouvez utiliser la commande Renommer du menu Refactoriser pour changer le nom de classe "Service1" à la fois dans le code et le fichier de configuration.
     public class MathsOperations : IMathsOperations
@@ -26,21 +26,6 @@ namespace MathLibraryRest
         public float Divide(int a, int b)
         {
             return (float)a / (float)b;
-        }
-
-        public float PostDivide(int x, int y)
-        {
-            return (float)x / (float)y;
-        }
-
-        public int SubstractXML(int a, int b)
-        {
-            return a - b;
-        }
-
-        public int SubstractXMLBARE(int a, int b)
-        {
-            return a - b;
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
