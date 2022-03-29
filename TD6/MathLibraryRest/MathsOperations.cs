@@ -28,6 +28,11 @@ namespace MathLibraryRest
             return (float)a / (float)b;
         }
 
+        public float PostDivide(int x, int y)
+        {
+            return (float)x / (float)y;
+        }
+
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
             if (composite == null)

@@ -31,6 +31,11 @@ namespace MathLibraryRest
         float Divide(int x, int y);
 
         [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "PostDiv", RequestFormat = WebMessageFormat.Json)]
+        //Pour tester divide voici une requete : POST http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/PostDiv
+        float PostDivide(int x, int y);
+
+        [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: ajoutez vos opérations de service ici

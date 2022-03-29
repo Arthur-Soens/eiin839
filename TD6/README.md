@@ -1,7 +1,7 @@
 # Rapport Arthur Soens
 
 
-Pour lancer les trois projets, il faut lancer la solution td6 qui contient ClientSoapMathLibrary, MathLibrary et MathLibraryRest
+Pour lancer les trois projets, il faut lancer la solution td6 qui contient ClientSoapMathLibrary, MathLibrary et MathLibraryRest avec visual studio en mode admimistrateur.
 
 ### Projets :
 
@@ -24,3 +24,7 @@ http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Mult?x=
 
 __Divide (1/2)__ :
 http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/Div?x=1&y=2
+
+__Divide with post request__ :
+
+`POST http://localhost:8734/Design_Time_Addresses/MathsLibrary/MathsOperations/PostDiv {"x":3,"y":2}`
