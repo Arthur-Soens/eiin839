@@ -31,7 +31,6 @@ namespace Proxy
             string responseBody = await response.Content.ReadAsStringAsync();
             List<Contract> list = JsonSerializer.Deserialize<List<Contract>>(responseBody);
             cache.Set("Contracts", list, expirationTime);
-            Console.WriteLine("Not from cache");
             return list;
         }
 

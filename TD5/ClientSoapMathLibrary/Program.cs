@@ -1,16 +1,15 @@
-﻿
-
-using ServiceReference2;
+﻿using ServiceReference1;
 
 class Program
 {
-
     static async Task Main(string[] arg)
     {
         {
-            ServiceReference2.MathsOperationsClient client = new MathsOperationsClient();
 
-            int result = await  client.AddAsync(3, 4);
+            //Recupère le un client qui communique en SOAP avec MathLibrary 
+            ServiceReference1.MathsOperationsClient client = new MathsOperationsClient();
+
+            int result = await client.AddAsync(3, 4);
             Console.WriteLine(result);
             result = await client.SubstractAsync(3, 4);
             Console.WriteLine(result);
