@@ -18,7 +18,10 @@ namespace RoutingSoapRest
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
-        
+
+        [OperationContract]
+        Way[] GetDirections(string start, string end);
+
     }
 
     // Utilisez un contrat de données comme indiqué dans l'exemple ci-après pour ajouter les types composites aux opérations de service.

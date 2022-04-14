@@ -30,7 +30,7 @@ namespace Proxy
             }
             else
             {
-                string[] key = cacheItemName.Split(':');
+                string[] key = cacheItemName.Split('_');
                 HttpResponseMessage response = clientSocket.GetAsync("https://api.jcdecaux.com/vls/v3/stations/"+key[0]+"?contract=" + key[1] + "&apiKey=2ba463e0d63cedfd5374762396b92c89cd41ec62").Result;
                 response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;

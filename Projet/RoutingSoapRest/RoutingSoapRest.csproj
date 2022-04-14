@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="EnableCrossOriginResourceSharingBehavior.cs" />
     <Compile Include="feature.cs" />
+    <Compile Include="FindHelper.cs" />
     <Compile Include="IRestRouting.cs" />
     <Compile Include="ISoapRouting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,5 +38,10 @@ namespace RoutingSoapRest
             }
             return composite;
         }
+
+        public Way[] GetDirections(string start, string end)
+        {
+            return RestRouting.helper.GetWays(start, end);
+        }
     }
 }
