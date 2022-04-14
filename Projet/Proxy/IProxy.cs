@@ -13,7 +13,13 @@ namespace Proxy
     public interface IProxy
     {
         [OperationContract]
-        Task<List<Contract>> GetContracts(int value);
+        List<Contract> GetContracts();
+
+        [OperationContract]
+        JCDecauxItem GetAllStations();
+
+        [OperationContract]
+        JCDecauxItem GetStations(string key);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
@@ -42,5 +48,43 @@ namespace Proxy
             get { return stringValue; }
             set { stringValue = value; }
         }
+    }
+
+    [DataContract]
+    public class Station
+    {
+        [DataMember]
+        public int number { get; set; }
+        [DataMember]
+        public string contractName { get; set; }
+        [DataMember]
+        public Position position { get; set; }
+        [DataMember]
+        public TotalStands totalStands { get; set; }
+    }
+
+    [DataContract]
+    public class Position
+    {
+        [DataMember]
+        public double latitude { get; set; }
+        [DataMember]
+        public double longitude { get; set; }
+    }
+
+    [DataContract]
+    public class TotalStands
+    {
+        [DataMember]
+        public Availabilities availabilities { get; set; }
+        [DataMember]
+        public int capacity { get; set; }
+    }
+    [DataContract]
+    public class Availabilities
+    {
+        [DataMember]
+        public int bikes { get; set; }
+
     }
 }

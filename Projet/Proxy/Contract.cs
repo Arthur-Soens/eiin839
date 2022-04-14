@@ -18,4 +18,5 @@ namespace Proxy
             return "Name : " + name + ", Commercial : " + commercial_name + ", Country code : " + country_code + ", Cities : " + string.Join(";", cities) + "\n";
         }
     }
+
 }

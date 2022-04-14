@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JCDecaux Project</title>
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+</head>
+<body>
+    <div id="step1">
+        <div>
+        <h2>Start:</h2>
+        <label for="startAddress">Adresse de départ:</label>
+        <input name="AddressInput" id="startAddress">
+
+        <h2>End:</h2>
+        <label for="endAddress">Adresse d'arrivée:</label>
+        <input name="AddressInput" id="endAddress">
+        <br>
+        <button id="RetrieveEndcoord" onclick="retrieveCoord();">Retrieve stations</button>
+
+        </div>
+        <br>
+        <div id="step2" class="step">
+            <div>
+                Trajet vélo : <div id="carrevelo"></div>
+                <br>
+                Trajet piéton : <div id="carrepieton"></div>
+                <br>
+                Temps total : <span id="temptot"></span>
+            </div>
+            <h2>Chemin à prendre :</h2>
+            <br>
+            <div id="pathway">
+                <span id="response">
+                </span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <script type="text/javascript" src="main.js"></script>
+    <div id="map">
+        <script type="text/javascript" >
+            var map = new ol.Map({
+                target: 'map', // <-- This is the id of the div in which the map will be built.
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([7.0985774, 43.6365619]), // <-- Those are the GPS coordinates to center the map to.
+                    zoom: 10 // You can adjust the default zoom.
+                })
+
+            });
+
+        </script>
+    </div>
+</body>
+</html>
