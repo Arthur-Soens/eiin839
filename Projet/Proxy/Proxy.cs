@@ -40,7 +40,7 @@ namespace Proxy
 
         public JCDecauxItem GetStations(string key)
         {
-            return (JCDecauxItem)decauxCache.Get(key, 300.0);
+            return (JCDecauxItem)decauxCache.Get(key, 60.0);
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)

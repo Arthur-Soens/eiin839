@@ -1,4 +1,5 @@
 ﻿
+using RoutingSoapRest.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace RoutingSoapRest
 
         [OperationContract]
         Way[] GetDirections(string start, string end);
+
+        [OperationContract]
+        Station GetDirection(string start);
 
     }
 

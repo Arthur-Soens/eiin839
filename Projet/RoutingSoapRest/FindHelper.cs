@@ -21,6 +21,13 @@ namespace RoutingSoapRest
             client.Close();
         }
 
+        public Station GetWay(string start)
+        {
+            var coord = GetCoordinate(start);
+            var station = FindClosestStationByFeetFrom(coord, true);
+            return station;
+        }
+
         public Way[] GetWays(string start, string end)
         {
             var coordinates = GetCoordinates(start, end);

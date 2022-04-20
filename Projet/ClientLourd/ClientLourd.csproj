@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,6 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Connected Services\RoutingServer\Reference.cs" />
+    <Compile Remove="Connected Services\Routing\Reference.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Connected Services\RoutingServer\Reference.cs" />
+    <None Include="Connected Services\Routing\Reference.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />

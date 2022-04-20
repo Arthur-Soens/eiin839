@@ -86,8 +86,6 @@ function displayValue(){
             j++
         }
     }
-
-
 }
 
 
