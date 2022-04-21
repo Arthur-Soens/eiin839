@@ -38,12 +38,12 @@ namespace RoutingSoapRest
         }
     }
 
-    internal class ReponseDist
+    public class ReponseDist
     {
         public FeatureDist[] features { get; set; }
     }
 
-    internal class FeatureDist
+    public class FeatureDist
     {
         public GeometryDist geometry { get; set; }
         public PropertiesDist properties { set; get; }

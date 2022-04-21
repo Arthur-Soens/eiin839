@@ -25,121 +25,60 @@ namespace RoutingSoapRest
         {
             var coord = GetCoordinate(start);
             var station = FindClosestStationByFeetFrom(coord, true);
-            return station;
+            return station.station;
         }
 
         public Way[] GetWays(string start, string end)
         {
-            var coordinates = GetCoordinates(start, end);
-            Way[] directions;
-            if (coordinates.Length == 2)
-            {
-                directions = new Way[1];
-                directions[0] = GetRoute(coordinates[0], coordinates[1], false);
-
-                return directions;
-            }
-
-            directions = new Way[3];
-
-            directions[0] = GetRoute(coordinates[0], coordinates[1], false);
-
-            directions[1] = GetRoute(coordinates[1], coordinates[2], true);
-
-            directions[2] = GetRoute(coordinates[2], coordinates[3], false);
-
-
-            return directions;
-        }
-
-        public Way GetRoute(GeoCoordinate start, GeoCoordinate end, bool isOnBike)
-        {
-            string adresse =
-                "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" +
-                (start.Longitude + "").Replace(',', '.') + "," + (start.Latitude + "").Replace(',', '.') + "&end=" +
-                (end.Longitude + "").Replace(',', '.') + "," + (end.Latitude + "").Replace(',', '.');
-            if (isOnBike)
-            {
-                adresse =
-                    "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" +
-                    (start.Longitude + "").Replace(',', '.') + "," + (start.Latitude + "").Replace(',', '.') + "&end=" +
-                    (end.Longitude + "").Replace(',', '.') + "," + (end.Latitude + "").Replace(',', '.');
-            }
-            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
-            string responseBody = response.Content.ReadAsStringAsync().Result;
-            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
-            return new Way(resp.features[0].properties, resp.features[0].geometry);
-        }
-        public GeoCoordinate[] GetCoordinates(string start, string end)
-        {
             Geometry startLocation = GetCoordinate(start);
             Geometry endLocation = GetCoordinate(end);
 
-            var closestStationFromStart = FindClosestStationByFeetFrom(startLocation, true);
-            var closestStationFromEnd = FindClosestStationByFeetFrom(endLocation, false);
+            InfoStation closestStationFromStart = FindClosestStationByFeetFrom(startLocation, true);
+            InfoStation closestStationFromEnd = FindClosestStationByFeetFrom(endLocation, false);
 
-            double timeFeet = GetDuration(startLocation, endLocation);
-            double totalTime = GetDuration(startLocation, closestStationFromStart.position) + GetDurationBike(closestStationFromStart.position, closestStationFromEnd.position) + GetDuration(closestStationFromEnd.position, endLocation);
+            ReponseDist station2station = GetDurationBike(closestStationFromStart.station.position, closestStationFromEnd.station.position);
+            ReponseDist a2b = GetDuration(startLocation, endLocation);
+            double timeFeet = a2b.features[0].properties.summary.duration;
+            double totalTime = closestStationFromStart.reponseDist.features[0].properties.summary.duration + station2station.features[0].properties.summary.duration + closestStationFromEnd.reponseDist.features[0].properties.summary.duration;
 
             GeoCoordinate startCoordinate = new GeoCoordinate(startLocation.getLatitude(), startLocation.getLongitude());
             GeoCoordinate endCoordinate = new GeoCoordinate(endLocation.getLatitude(), endLocation.getLongitude());
             if (timeFeet < totalTime)
             {
-                return new GeoCoordinate[] { startCoordinate, endCoordinate };
+                return new Way[] { new Way(a2b.features[0].properties, a2b.features[0].geometry) };
             }
-            GeoCoordinate firststopCoordinate = new GeoCoordinate(closestStationFromStart.position.latitude, closestStationFromStart.position.longitude);
-            GeoCoordinate secondstopCoordinate = new GeoCoordinate(closestStationFromEnd.position.latitude, closestStationFromEnd.position.longitude);
-            return new GeoCoordinate[] { startCoordinate, firststopCoordinate, secondstopCoordinate, endCoordinate };
+            GeoCoordinate firststopCoordinate = new GeoCoordinate(closestStationFromStart.station.position.latitude, closestStationFromStart.station.position.longitude);
+            GeoCoordinate secondstopCoordinate = new GeoCoordinate(closestStationFromEnd.station.position.latitude, closestStationFromEnd.station.position.longitude);
+            return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(station2station.features[0].properties, station2station.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
         }
-
-
 
         public Geometry GetCoordinate(string from)
         {
             HttpResponseMessage response = clientSocket.GetAsync("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&text=" + from).Result;
+            response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             Reponse resp = JsonSerializer.Deserialize<Reponse>(responseBody);
             return resp.features[0].geometry;
         }
 
-        public double GetDuration(Geometry start, Geometry end)
+        public ReponseDist GetDuration(Geometry start, Geometry end)
         {
             string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+            response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
-            return resp.features[0].properties.summary.duration;
+            return resp;
         }
 
-        public double GetDuration(Geometry start, Position end)
+        public ReponseDist GetDurationBike(Position start, Position end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
-            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
-            string responseBody = response.Content.ReadAsStringAsync().Result;
-            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
-            return resp.features[0].properties.summary.duration;
-        }
-
-        public double GetDuration(Position start, Geometry end)
-        {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
-            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
-            string responseBody = response.Content.ReadAsStringAsync().Result;
-            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
-            return resp.features[0].properties.summary.duration;
-        }
-
-        public double GetDurationBike(Position start, Position end)
-        {
-            if (start.latitude == end.latitude && start.longitude == end.longitude)
-            {
-                return 0;
-            }
             string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+            response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
-            return resp.features[0].properties.summary.duration;
+            return resp;
         }
 
         public Station[] FindClosestStationFrom(Geometry coordonnee, bool fromTheStart)
@@ -180,18 +119,20 @@ namespace RoutingSoapRest
             return result;
         }
 
-        public Station FindClosestStationByFeetFrom(Geometry coordonnee, bool fromStart)
+        public InfoStation FindClosestStationByFeetFrom(Geometry coordonnee, bool fromStart)
         {
             Station[] result = FindClosestStationFrom(coordonnee, fromStart);
 
             HttpClient clientSocket = new HttpClient();
             Station final = new Station();
+            InfoStation info = new InfoStation();
             double distance = double.PositiveInfinity;
 
             foreach (Station station in result)
             {
                 string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
                 HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+                response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;
                 ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
 
@@ -199,10 +140,11 @@ namespace RoutingSoapRest
                 {
                     distance = resp.features[0].properties.summary.distance;
                     final = station;
+                    info = new InfoStation(final, resp);
                 }
 
             }
-            return final;
+            return info;
         }
 
     }
