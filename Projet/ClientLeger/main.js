@@ -45,7 +45,12 @@ function displayValue(){
             for(let j = 0; j<response[i].properties.segments[0].steps.length;j++){
                 steps.push(response[i].properties.segments[0].steps[j].instruction)
                 totduration += response[i].properties.segments[0].steps[j].duration;
-                duration.push("temps estimé: " + Math.trunc(response[i].properties.segments[0].steps[j].duration/60) + "min - Distance : " + response[i].properties.segments[0].steps[j].distance)
+                if(response[i].properties.segments[0].steps[j].duration >= 60) {
+                    duration.push("temps estimé: " + Math.trunc(response[i].properties.segments[0].steps[j].duration/60) + "min - Distance : " + response[i].properties.segments[0].steps[j].distance);
+                }
+                else{
+                    duration.push("temps estimé: " + Math.trunc(response[i].properties.segments[0].steps[j].duration) + "sec - Distance : " + response[i].properties.segments[0].steps[j].distance);
+                }
             }
         }
         var text = ""
