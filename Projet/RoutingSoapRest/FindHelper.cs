@@ -136,13 +136,12 @@ namespace RoutingSoapRest
                 string responseBody = response.Content.ReadAsStringAsync().Result;
                 ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
 
-                if (resp.features[0].properties.summary.distance < distance)
+                if (resp.features[0].properties.summary.duration < distance)
                 {
-                    distance = resp.features[0].properties.summary.distance;
+                    distance = resp.features[0].properties.summary.duration;
                     final = station;
                     info = new InfoStation(final, resp);
                 }
-
             }
             return info;
         }
