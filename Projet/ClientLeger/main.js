@@ -28,6 +28,19 @@ function callAPI(url, requestType, params, finishHandler) {
 function retrieveCoord(){
     var selectedStartAddress = document.getElementById("startAddress").value;
     var selectedEndAddress = document.getElementById("endAddress").value;
+    if(selectedEndAddress==="" || selectedStartAddress===""){
+        console.log(alllayer)
+        var length = alllayer.length
+        for(let i = 0; i < length;i++){
+            console.log("ici")
+            map.removeLayer(alllayer.pop())
+        }
+        document.getElementById("errorResponse").innerHTML = "Veuillez entrer quelque chose";
+        document.getElementById("error").style.display = "block";
+        document.getElementById("step2").style.display = "none";
+        return;
+        return;
+    }
     callAPI(url+"Coordinate", "GET", "start="+document.getElementById("startAddress").value.replaceAll(' ', '+')+"&end="+document.getElementById("endAddress").value.replaceAll(' ', '+'), displayValue);
 }
 
@@ -35,11 +48,25 @@ function displayValue(){
     if (this.status !== 200) {
         console.log("bad request");
     } else {
+        console.log(alllayer)
+        var length = alllayer.length
+        for(let i = 0; i < length;i++){
+            console.log("ici")
+            map.removeLayer(alllayer.pop())
+        }
         response = JSON.parse(this.responseText);
         var steps = []
         var duration = []
         var totduration=0;
         var dist = []
+
+        if(response[0].isError){
+            document.getElementById("errorResponse").innerHTML = response[0].message.replaceAll("\n","<br>");
+            document.getElementById("error").style.display = "block";
+            document.getElementById("step2").style.display = "none";
+            return;
+        }
+        document.getElementById("error").style.display = "none";
         for(let i = 0; i< response.length; i++){
             console.log(response[i].properties.segments[0].steps)
             for(let j = 0; j<response[i].properties.segments[0].steps.length;j++){
@@ -72,12 +99,7 @@ function displayValue(){
             zoom: 10 // You can adjust the default zoom.
         }))
 
-        console.log(alllayer)
-        var length = alllayer.length
-        for(let i = 0; i < length;i++){
-            console.log("ici")
-            map.removeLayer(alllayer.pop())
-        }
+
         var j = 0;
         for(let i = 0;i<response.length; i++){
             var coloration;

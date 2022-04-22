@@ -55,7 +55,6 @@ namespace RoutingSoapRest
         public Geometry GetCoordinate(string from)
         {
             HttpResponseMessage response = clientSocket.GetAsync("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&text=" + from).Result;
-            response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             Reponse resp = JsonSerializer.Deserialize<Reponse>(responseBody);
             return resp.features[0].geometry;
