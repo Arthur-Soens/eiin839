@@ -22,7 +22,7 @@ namespace Proxy
         JCDecauxItem GetStations(string key);
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        JCDecauxItem GetAllStationsFromContract(string key);
 
         // TODO: ajoutez vos opérations de service ici
     }

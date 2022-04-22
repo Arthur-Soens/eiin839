@@ -33,27 +33,21 @@ namespace Proxy
             return list;
         }
 
+
+        //Utilisation du proxy cahce générique
         public JCDecauxItem GetAllStations()
         {
             return (JCDecauxItem) decauxCache.Get("All");
         }
 
+        public JCDecauxItem GetAllStationsFromContract(string key)
+        {
+            return (JCDecauxItem)decauxCache.Get("All_"+key);
+        }
+
         public JCDecauxItem GetStations(string key)
         {
             return (JCDecauxItem)decauxCache.Get(key, 60.0);
-        }
-
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
         }
     }
 }

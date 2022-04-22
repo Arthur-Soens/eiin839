@@ -411,67 +411,6 @@ namespace RoutingSoapRest.Proxy {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CompositeType", Namespace="http://schemas.datacontract.org/2004/07/Proxy")]
-    [System.SerializableAttribute()]
-    public partial class CompositeType : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool BoolValueField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string StringValueField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool BoolValue {
-            get {
-                return this.BoolValueField;
-            }
-            set {
-                if ((this.BoolValueField.Equals(value) != true)) {
-                    this.BoolValueField = value;
-                    this.RaisePropertyChanged("BoolValue");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string StringValue {
-            get {
-                return this.StringValueField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.StringValueField, value) != true)) {
-                    this.StringValueField = value;
-                    this.RaisePropertyChanged("StringValue");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Proxy.IProxy")]
     public interface IProxy {
@@ -494,11 +433,11 @@ namespace RoutingSoapRest.Proxy {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxy/GetStations", ReplyAction="http://tempuri.org/IProxy/GetStationsResponse")]
         System.Threading.Tasks.Task<RoutingSoapRest.Proxy.JCDecauxItem> GetStationsAsync(string key);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxy/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IProxy/GetDataUsingDataContractResponse")]
-        RoutingSoapRest.Proxy.CompositeType GetDataUsingDataContract(RoutingSoapRest.Proxy.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxy/GetAllStationsFromContract", ReplyAction="http://tempuri.org/IProxy/GetAllStationsFromContractResponse")]
+        RoutingSoapRest.Proxy.JCDecauxItem GetAllStationsFromContract(string key);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxy/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IProxy/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<RoutingSoapRest.Proxy.CompositeType> GetDataUsingDataContractAsync(RoutingSoapRest.Proxy.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxy/GetAllStationsFromContract", ReplyAction="http://tempuri.org/IProxy/GetAllStationsFromContractResponse")]
+        System.Threading.Tasks.Task<RoutingSoapRest.Proxy.JCDecauxItem> GetAllStationsFromContractAsync(string key);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -552,12 +491,12 @@ namespace RoutingSoapRest.Proxy {
             return base.Channel.GetStationsAsync(key);
         }
         
-        public RoutingSoapRest.Proxy.CompositeType GetDataUsingDataContract(RoutingSoapRest.Proxy.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContract(composite);
+        public RoutingSoapRest.Proxy.JCDecauxItem GetAllStationsFromContract(string key) {
+            return base.Channel.GetAllStationsFromContract(key);
         }
         
-        public System.Threading.Tasks.Task<RoutingSoapRest.Proxy.CompositeType> GetDataUsingDataContractAsync(RoutingSoapRest.Proxy.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContractAsync(composite);
+        public System.Threading.Tasks.Task<RoutingSoapRest.Proxy.JCDecauxItem> GetAllStationsFromContractAsync(string key) {
+            return base.Channel.GetAllStationsFromContractAsync(key);
         }
     }
 }

@@ -35,21 +35,41 @@ namespace RoutingSoapRest
 
             InfoStation closestStationFromStart = FindClosestStationByFeetFrom(startLocation, true);
             InfoStation closestStationFromEnd = FindClosestStationByFeetFrom(endLocation, false);
-
-            ReponseDist station2station = GetDurationBike(closestStationFromStart.station.position, closestStationFromEnd.station.position);
+            InfoStation whereDropFirstBike = null;
+            InfoStation whereGetSecondBike = null;
             ReponseDist a2b = GetDuration(startLocation, endLocation);
             double timeFeet = a2b.features[0].properties.summary.duration;
-            double totalTime = closestStationFromStart.reponseDist.features[0].properties.summary.duration + station2station.features[0].properties.summary.duration + closestStationFromEnd.reponseDist.features[0].properties.summary.duration;
-
-            GeoCoordinate startCoordinate = new GeoCoordinate(startLocation.getLatitude(), startLocation.getLongitude());
-            GeoCoordinate endCoordinate = new GeoCoordinate(endLocation.getLatitude(), endLocation.getLongitude());
-            if (timeFeet < totalTime)
+            if (closestStationFromStart.station.contractName != closestStationFromEnd.station.contractName)
             {
-                return new Way[] { new Way(a2b.features[0].properties, a2b.features[0].geometry) };
+                whereDropFirstBike = FindClosestStationForContract(endLocation,false, closestStationFromStart.station.contractName);
+                whereGetSecondBike = FindClosestStationForContract(startLocation,true, closestStationFromEnd.station.contractName);
+                if (whereDropFirstBike.station.number.Equals(closestStationFromStart.station.number))
+                {
+                    whereDropFirstBike = null;
+                }
+                if (whereGetSecondBike.station.number.Equals(closestStationFromEnd.station.number))
+                {
+                    whereGetSecondBike = null;
+                }
             }
-            GeoCoordinate firststopCoordinate = new GeoCoordinate(closestStationFromStart.station.position.latitude, closestStationFromStart.station.position.longitude);
-            GeoCoordinate secondstopCoordinate = new GeoCoordinate(closestStationFromEnd.station.position.latitude, closestStationFromEnd.station.position.longitude);
-            return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(station2station.features[0].properties, station2station.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
+            if(whereDropFirstBike != null && whereGetSecondBike != null)
+            {
+                var statOne2statTwo = GetDurationBike(closestStationFromStart.station.position, whereDropFirstBike.station.position);
+                var statThree2statFour = GetDurationBike(closestStationFromEnd.station.position, whereGetSecondBike.station.position);
+                var getInterCity = GetDuration(whereDropFirstBike.station.position, whereGetSecondBike.station.position);
+
+                return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(statOne2statTwo.features[0].properties, statOne2statTwo.features[0].geometry), new Way(getInterCity.features[0].properties, getInterCity.features[0].geometry), new Way(statThree2statFour.features[0].properties, statThree2statFour.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
+
+            }
+            else {
+                ReponseDist station2station = GetDurationBike(closestStationFromStart.station.position, closestStationFromEnd.station.position);
+                double totalTime = closestStationFromStart.reponseDist.features[0].properties.summary.duration + station2station.features[0].properties.summary.duration + closestStationFromEnd.reponseDist.features[0].properties.summary.duration;
+                if (timeFeet < totalTime)
+                {
+                    return new Way[] { new Way(a2b.features[0].properties, a2b.features[0].geometry) };
+                }
+                return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(station2station.features[0].properties, station2station.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
+            }
         }
 
         public Geometry GetCoordinate(string from)
@@ -70,6 +90,16 @@ namespace RoutingSoapRest
             return resp;
         }
 
+        public ReponseDist GetDuration(Position start, Position end)
+        {
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
+            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+            response.EnsureSuccessStatusCode();
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
+            return resp;
+        }
+
         public ReponseDist GetDurationBike(Position start, Position end)
         {
             string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
@@ -80,16 +110,25 @@ namespace RoutingSoapRest
             return resp;
         }
 
-        public Station[] FindClosestStationFrom(Geometry coordonnee, bool fromTheStart)
+        public Station[] FindClosestStationFrom(Geometry coordonnee, bool fromTheStart, string contractName)
         {
             SortedDictionary<double, Station> dico = new SortedDictionary<double, Station>();
-            foreach (Station station in allStations)
+            Station[] stations;
+            ProxyClient client = new ProxyClient();
+            if (contractName == "All") { stations = allStations; }
+            else {
+                stations = client.GetAllStationsFromContract(contractName).stations;
+            }
+            foreach (Station station in stations)
             {
                 GeoCoordinate me = new GeoCoordinate(coordonnee.getLatitude(), coordonnee.getLongitude());
                 GeoCoordinate to = new GeoCoordinate(station.position.latitude, station.position.longitude);
                 try
                 {
-                    dico.Add(me.GetDistanceTo(to), station);
+                    if (station.contractName != "jcdecauxbike")
+                    {
+                        dico.Add(me.GetDistanceTo(to), station);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +137,6 @@ namespace RoutingSoapRest
             }
             Station[] result = new Station[5];
             int i = 0;
-            ProxyClient client = new ProxyClient();
 
             foreach (Station s in dico.Values)
             {
@@ -120,7 +158,7 @@ namespace RoutingSoapRest
 
         public InfoStation FindClosestStationByFeetFrom(Geometry coordonnee, bool fromStart)
         {
-            Station[] result = FindClosestStationFrom(coordonnee, fromStart);
+            Station[] result = FindClosestStationFrom(coordonnee, fromStart, "All");
 
             HttpClient clientSocket = new HttpClient();
             Station final = new Station();
@@ -130,6 +168,36 @@ namespace RoutingSoapRest
             foreach (Station station in result)
             {
                 string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+                response.EnsureSuccessStatusCode();
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+                ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
+
+                if (resp.features[0].properties.summary.duration < distance)
+                {
+                    distance = resp.features[0].properties.summary.duration;
+                    final = station;
+                    info = new InfoStation(final, resp);
+                }
+            }
+            return info;
+        }
+
+        public InfoStation FindClosestStationForContract(Geometry coordonnee,bool fromStart, string contractName)
+        {
+            Station[] result = FindClosestStationFrom(coordonnee, fromStart, contractName);
+            HttpClient clientSocket = new HttpClient();
+            Station final = new Station();
+            InfoStation info = new InfoStation();
+            double distance = double.PositiveInfinity;
+
+            foreach (Station station in result)
+            {
+                string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                if (fromStart)
+                {
+                    adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                }
                 HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
                 response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;

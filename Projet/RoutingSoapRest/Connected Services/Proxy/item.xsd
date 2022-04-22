@@ -57,11 +57,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Availabilities" nillable="true" type="tns:Availabilities" />
-  <xs:complexType name="CompositeType">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="BoolValue" type="xs:boolean" />
-      <xs:element minOccurs="0" name="StringValue" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="CompositeType" nillable="true" type="tns:CompositeType" />
 </xs:schema>
