@@ -44,7 +44,8 @@ namespace RoutingSoapRest
             try
             {
                 return RestRouting.helper.GetWays(start, end);
-            }catch (IndexOutOfRangeException ex)
+            }
+            catch (IndexOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
                 return new Way[] { new Way(true, "Entrez des noms valide de ville, ou soyez plus précis") };
@@ -58,7 +59,20 @@ namespace RoutingSoapRest
 
         public Station GetDirection(string start)
         {
-            return RestRouting.helper.GetWay(start);
+            try
+            {
+                return RestRouting.helper.GetWay(start);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }
