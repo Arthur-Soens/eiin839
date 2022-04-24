@@ -54,6 +54,7 @@ namespace RoutingSoapRest
             }
             if(whereDropFirstBike != null && whereGetSecondBike != null)
             {
+                //if it's intercities, we choose to force the usage of the bikes because it's always better to go the the end without searching bike and the application no longer have sense in this case. (We want to use the bike as much as possible)
                 var statOne2statTwo = GetDurationBike(closestStationFromStart.station.position, whereDropFirstBike.station.position);
                 var statThree2statFour = GetDurationBike(closestStationFromEnd.station.position, whereGetSecondBike.station.position);
                 var getInterCity = GetDuration(whereDropFirstBike.station.position, whereGetSecondBike.station.position);
@@ -61,7 +62,20 @@ namespace RoutingSoapRest
                 return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(statOne2statTwo.features[0].properties, statOne2statTwo.features[0].geometry), new Way(getInterCity.features[0].properties, getInterCity.features[0].geometry), new Way(statThree2statFour.features[0].properties, statThree2statFour.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
 
             }
+            else if(whereDropFirstBike == null && whereGetSecondBike != null)
+            {
+                var depart2stationthree = GetDuration(startLocation, whereGetSecondBike.station.position);
+                var statThree2statFour = GetDurationBike(closestStationFromEnd.station.position, whereGetSecondBike.station.position);
+                return new Way[] { new Way(depart2stationthree.features[0].properties, depart2stationthree.features[0].geometry), new Way(statThree2statFour.features[0].properties, statThree2statFour.features[0].geometry), new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromEnd.reponseDist.features[0].geometry) };
+            }
+            else if (whereGetSecondBike == null && whereDropFirstBike != null)
+            {
+                var statOne2statTwo = GetDurationBike(closestStationFromStart.station.position, whereDropFirstBike.station.position);
+                var statTwo2end = GetDuration(whereDropFirstBike.station.position, endLocation);
+                return new Way[] { new Way(closestStationFromStart.reponseDist.features[0].properties, closestStationFromStart.reponseDist.features[0].geometry), new Way(statOne2statTwo.features[0].properties, statOne2statTwo.features[0].geometry),new Way(statTwo2end.features[0].properties, statTwo2end.features[0].geometry) };
+            }
             else {
+                //If we are in the same city, we choose the shortest path to go to the end point, so, If go by feet is shorter, we don't use bike
                 ReponseDist station2station = GetDurationBike(closestStationFromStart.station.position, closestStationFromEnd.station.position);
                 double totalTime = closestStationFromStart.reponseDist.features[0].properties.summary.duration + station2station.features[0].properties.summary.duration + closestStationFromEnd.reponseDist.features[0].properties.summary.duration;
                 if (timeFeet < totalTime)
@@ -90,9 +104,29 @@ namespace RoutingSoapRest
             return resp;
         }
 
+        public ReponseDist GetDuration(Position start, Geometry end)
+        {
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
+            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+            response.EnsureSuccessStatusCode();
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
+            return resp;
+        }
+
         public ReponseDist GetDuration(Position start, Position end)
         {
             string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
+            HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
+            response.EnsureSuccessStatusCode();
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            ReponseDist resp = JsonSerializer.Deserialize<ReponseDist>(responseBody);
+            return resp;
+        }
+
+        public ReponseDist GetDuration(Geometry start, Position end)
+        {
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;

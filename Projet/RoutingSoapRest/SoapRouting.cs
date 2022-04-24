@@ -14,6 +14,7 @@ namespace RoutingSoapRest
     {
         public string GetData(int value)
         {
+            Console.WriteLine("Request received");
             ProxyClient client = new ProxyClient();
             JCDecauxItem contracts = client.GetAllStations();
             String s = "";
@@ -41,6 +42,7 @@ namespace RoutingSoapRest
 
         public Way[] GetDirections(string start, string end)
         {
+            Console.WriteLine("Request received");
             try
             {
                 return RestRouting.helper.GetWays(start, end);
@@ -59,6 +61,7 @@ namespace RoutingSoapRest
 
         public Station GetDirection(string start)
         {
+            Console.WriteLine("Request received");
             try
             {
                 return RestRouting.helper.GetWay(start);

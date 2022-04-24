@@ -18,6 +18,7 @@ namespace RoutingSoapRest
 
         public Way[] GetDirections(string start, string end)
         {
+            Console.WriteLine("Request received");
             try
             {
                 return helper.GetWays(start, end);
