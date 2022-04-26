@@ -26,6 +26,7 @@ function callAPI(url, requestType, params, finishHandler) {
 }
 
 function retrieveCoord(){
+    document.getElementById("step2").style.display = "none";
     var selectedStartAddress = document.getElementById("startAddress").value;
     var selectedEndAddress = document.getElementById("endAddress").value;
     if(selectedEndAddress==="" || selectedStartAddress===""){

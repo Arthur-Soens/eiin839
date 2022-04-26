@@ -15,6 +15,8 @@ namespace RoutingSoapRest
             svc.Open();
             var svc2 = new ServiceHost(typeof(RoutingSoapRest.RestRouting));
             svc2.Open();
+            Console.WriteLine("Routing Ready");
+            Console.WriteLine("Awaiting Request !");
             Console.ReadLine();
         }
     }

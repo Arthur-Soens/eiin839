@@ -18,20 +18,24 @@ namespace RoutingSoapRest
 
         public Way[] GetDirections(string start, string end)
         {
-            Console.WriteLine("Request received");
+            Console.WriteLine("Rest Request received");
             try
             {
-                return helper.GetWays(start, end);
+                Console.WriteLine("Start research");
+                var result = helper.GetWays(start, end);
+                Console.WriteLine("Research finish, sending info to thin client");
+                return result;
             }
             catch (IndexOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Due to a wrong address");
                 return new Way[] { new Way(true, "Entrez des noms valide de ville, ou soyez plus précis") };
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new Way[] { new Way(true, "L'api de google à reçu trop de requêtes, veuillez patienter quelque minute avant de réessayer") };
+                return new Way[] { new Way(true, "L'api de google a reçu trop de requêtes, veuillez patienter quelque minutes avant de réessayer") };
             }
         }
     }

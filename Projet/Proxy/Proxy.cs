@@ -37,16 +37,22 @@ namespace Proxy
         //Utilisation du proxy cahce générique
         public JCDecauxItem GetAllStations()
         {
+            Console.WriteLine("Resquest received");
+            Console.WriteLine("Retrieve all stations");
             return (JCDecauxItem) decauxCache.Get("All");
         }
 
         public JCDecauxItem GetAllStationsFromContract(string key)
         {
+            Console.WriteLine("Resquest received");
+            Console.WriteLine("Retrieve all stations for the contract " + key);
             return (JCDecauxItem)decauxCache.Get("All_"+key);
         }
 
         public JCDecauxItem GetStations(string key)
         {
+            Console.WriteLine("Resquest received");
+            Console.WriteLine("Retrieve station stored for the key :" + key);
             return (JCDecauxItem)decauxCache.Get(key, 60.0);
         }
     }

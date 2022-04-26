@@ -13,6 +13,8 @@ namespace Proxy
         {
             var svc = new ServiceHost(typeof(Proxy));
             svc.Open();
+            Console.WriteLine("Proxy Ready");
+            Console.WriteLine("Awaiting Request !");
             Console.ReadLine();
         }
     }

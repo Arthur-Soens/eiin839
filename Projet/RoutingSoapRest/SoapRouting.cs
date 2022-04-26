@@ -45,7 +45,10 @@ namespace RoutingSoapRest
             Console.WriteLine("Request received");
             try
             {
-                return RestRouting.helper.GetWays(start, end);
+                Console.WriteLine("Start research (Best directions between "+start+" and " +end+")");
+                var result = RestRouting.helper.GetWays(start, end);
+                Console.WriteLine("Research finish, sending info to Heavy client");
+                return result;
             }
             catch (IndexOutOfRangeException ex)
             {
@@ -64,11 +67,15 @@ namespace RoutingSoapRest
             Console.WriteLine("Request received");
             try
             {
-                return RestRouting.helper.GetWay(start);
+                Console.WriteLine("Start research (The closest station from " + start + ")");
+                var result = RestRouting.helper.GetStation(start);
+                Console.WriteLine("Research finish, sending info to Heavy client");
+                return result;
             }
             catch (IndexOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Due to a wrong address");
                 return null;
             }
             catch (Exception ex)
