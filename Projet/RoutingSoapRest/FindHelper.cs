@@ -14,6 +14,7 @@ namespace RoutingSoapRest
     {
         HttpClient clientSocket = new HttpClient();
         Station[] allStations = null;
+        string api_key = "5b3ce3597851110001cf624861912097812a436daaae0aca02220957";
         public FindHelper()
         {
             //Here we retrieve all stations at the start of the server and we store them
@@ -99,7 +100,7 @@ namespace RoutingSoapRest
         //Just get all coordinate
         public Geometry GetCoordinate(string from)
         {
-            HttpResponseMessage response = clientSocket.GetAsync("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&text=" + from).Result;
+            HttpResponseMessage response = clientSocket.GetAsync("https://api.openrouteservice.org/geocode/search?api_key="+api_key+"&text=" + from).Result;
             string responseBody = response.Content.ReadAsStringAsync().Result;
             Reponse resp = JsonSerializer.Deserialize<Reponse>(responseBody);
             return resp.features[0].geometry;
@@ -108,7 +109,7 @@ namespace RoutingSoapRest
         //The next five methods are there to get the duration between two coordinates
         public ReponseDist GetDuration(Geometry start, Geometry end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key="+ api_key+"&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -118,7 +119,7 @@ namespace RoutingSoapRest
 
         public ReponseDist GetDuration(Position start, Geometry end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=" + api_key + "&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.getLongitude() + "").Replace(',', '.') + "," + (end.getLatitude() + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -128,7 +129,7 @@ namespace RoutingSoapRest
 
         public ReponseDist GetDuration(Position start, Position end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=" + api_key + "&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -138,7 +139,7 @@ namespace RoutingSoapRest
 
         public ReponseDist GetDuration(Geometry start, Position end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
+            string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=" + api_key + "&start=" + (start.getLongitude() + "").Replace(',', '.') + "," + (start.getLatitude() + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -149,7 +150,7 @@ namespace RoutingSoapRest
         //Here we want tho get the duration but with a bike
         public ReponseDist GetDurationBike(Position start, Position end)
         {
-            string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
+            string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=" + api_key + "&start=" + (start.longitude + "").Replace(',', '.') + "," + (start.latitude + "").Replace(',', '.') + "&end=" + (end.longitude + "").Replace(',', '.') + "," + (end.latitude + "").Replace(',', '.');
             HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -225,7 +226,7 @@ namespace RoutingSoapRest
             //Here we get the station where it's quicker to go by feet
             foreach (Station station in result)
             {
-                string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                string adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=" + api_key + "&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
                 HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
                 response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -256,10 +257,10 @@ namespace RoutingSoapRest
             //Here we get the station where it's quicker to go by feet or in bike depending on fromStart
             foreach (Station station in result)
             {
-                string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                string adresse = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=" + api_key + "&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
                 if (fromStart)
                 {
-                    adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624861912097812a436daaae0aca02220957&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
+                    adresse = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=" + api_key + "&start=" + (coordonnee.getLongitude() + "").Replace(',', '.') + "," + (coordonnee.getLatitude() + "").Replace(',', '.') + "&end=" + (station.position.longitude + "").Replace(',', '.') + "," + (station.position.latitude + "").Replace(',', '.');
                 }
                 HttpResponseMessage response = clientSocket.GetAsync(adresse).Result;
                 response.EnsureSuccessStatusCode();
